@@ -19,6 +19,11 @@ namespace Beamable.Server.Clients
     public sealed class UserDataServiceClient : Beamable.Server.MicroserviceClient
     {
         
+        public UserDataServiceClient(Beamable.BeamContext context = null) : 
+                base(context)
+        {
+        }
+        
         /// <summary>
         /// Call the SaveMessage method on the UserDataService microservice
         /// <see cref="Beamable.Server.UserDataService.SaveMessage"/>
@@ -47,6 +52,36 @@ namespace Beamable.Server.Clients
                     serialized_x,
                     serialized_y};
             return this.Request<System.Collections.Generic.List<string>>("UserDataService", "GetMessage", serializedFields);
+        }
+    }
+    
+    internal sealed class MicroserviceParametersUserDataServiceClient
+    {
+        
+        [System.SerializableAttribute()]
+        internal sealed class ParameterSystem_String : Beamable.Server.MicroserviceClientDataWrapper<string>
+        {
+        }
+        
+        [System.SerializableAttribute()]
+        internal sealed class ParameterSystem_Int32 : Beamable.Server.MicroserviceClientDataWrapper<int>
+        {
+        }
+    }
+    
+    [BeamContextSystemAttribute()]
+    internal static class ExtensionsForUserDataServiceClient
+    {
+        
+        [Beamable.Common.Dependencies.RegisterBeamableDependenciesAttribute()]
+        public static void RegisterService(Beamable.Common.Dependencies.IDependencyBuilder builder)
+        {
+            builder.AddScoped<UserDataServiceClient>();
+        }
+        
+        public static UserDataServiceClient UserDataService(this Beamable.Server.MicroserviceClients clients)
+        {
+            return clients.GetClient<UserDataServiceClient>();
         }
     }
 }

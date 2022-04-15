@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using MongoDB.Driver;
 using UnityEngine;
 
@@ -10,15 +11,15 @@ namespace Beamable.Server
    public class UserDataService : Microservice
    {
       [ClientCallable]
-      public bool SaveMessage(string message, int x, int y)
+      public async Task<bool> SaveMessage(string message, int x, int y)
       {
          bool isSuccess = false;
 
          try
          {
-            var db = Storage.GetDatabase<UserDataStorage>();
+            var db = await Storage.GetDatabase<UserDataStorage>();
             var collection = db.GetCollection<UserMessage>("messages");
-            collection.InsertOne( new UserMessage()
+            await collection.InsertOneAsync( new UserMessage()
             {
                Message = message,
                X = x,
@@ -36,13 +37,13 @@ namespace Beamable.Server
       }
       
       [ClientCallable]
-      public List<string> GetMessage(int x, int y)
+      public async Task<List<string>> GetMessage(int x, int y)
       {
-         var db = Storage.GetDatabase<UserDataStorage>();
-         var collection = db.GetCollection<UserMessage>("messages");
-         var messages = collection
-            .Find(document => document.X == x && document.Y == y)
-            .ToList();
+          var db = await Storage.GetDatabase<UserDataStorage>();
+          var collection = db.GetCollection<UserMessage>("messages");
+          var messages = collection
+             .Find(document => document.X == x && document.Y == y)
+             .ToList();
 
          return messages.Select(m => m.Message).ToList();
       }

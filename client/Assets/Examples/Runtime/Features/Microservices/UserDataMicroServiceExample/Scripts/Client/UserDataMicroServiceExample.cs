@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Beamable.Server.Clients;
 
@@ -20,8 +19,8 @@ namespace Beamable.Examples.Features.Microservices.UserDataMicroServiceExample
         protected void Start()
         {
             Debug.Log("Start() Instructions...\n" + 
-            "* Complete docker setup per https://docs.beamable.com/docs/microservices-feature\n" +
-            "* Start the server per https://docs.beamable.com/docs/microservices-feature\n" +
+            "* Complete docker setup per https://docs.beamable.com/docs/microservices-feature-overview\n" +
+            "* Start the server per https://docs.beamable.com/docs/microservices-feature-overview\n" +
             "* Play This Scene\n" + 
             "* View the Unity Console output\n" + 
             "* Enjoy!\n\n\n");
